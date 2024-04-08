@@ -176,6 +176,23 @@ def get_availabilities_for_individual():
         return jsonify({"message": "All availabilities retrieved successfully", "availabilities": availability_data_array}), 200
     else:
         return jsonify({"message": "No availabilities found"}), 404
+    
+
+@app.route('/get_email_by_id', methods=['GET'])
+def get_email_by_id():
+    user_id = request.args.get('UserID')
+
+    # Query to retrieve user email by ID
+    sql = "SELECT Email FROM Employees WHERE ID = %s"
+    values = (user_id,)
+
+    cursor.execute(sql, values)
+    email = cursor.fetchone()
+
+    if email:
+        return jsonify({"message": "Email retrieved successfully", "email": email[0]}), 200
+    else:
+        return jsonify({"message": "User not found"}), 404
 
 
 
